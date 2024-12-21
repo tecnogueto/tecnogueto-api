@@ -6,10 +6,6 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = '__all__'
 
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = '__all__'
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,12 +22,21 @@ class CourseCategorySerializer(serializers.ModelSerializer):
         model = CourseCategory
         fields = '__all__'
 
+class LessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = '__all__'
+
 class ModuleCourseSerializer(serializers.ModelSerializer):
+    lessons = LessonSerializer(many=True)
     class Meta:
         model = ModuleCourse
         fields = '__all__'
 
-class LessonSerializer(serializers.ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
+    instructor = InstructorSerializer()
+    category = CourseCategorySerializer()
+    modules = ModuleCourseSerializer(many=True)  
     class Meta:
-        model = Lesson
+        model = Course
         fields = '__all__'
