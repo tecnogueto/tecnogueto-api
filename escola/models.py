@@ -1,4 +1,11 @@
 from django.db import models
+import os
+from django.core.exceptions import ValidationError
+
+def validate_svg(value):
+    ext = os.path.splitext(value.name)[1]  # Obtém a extensão do arquivo
+    if ext.lower() != '.svg':
+        raise ValidationError('Apenas arquivos SVG são permitidos.')
 
 class Instructor(models.Model):
     name = models.CharField(max_length=100)
@@ -6,7 +13,7 @@ class Instructor(models.Model):
     bio = models.TextField(max_length=500)
     role = models.CharField(max_length=50)
     phone = models.CharField(max_length=20)
-    image = models.ImageField(upload_to='instructors', blank=True, null=True)
+    image = models.FileField(upload_to='instructors', blank=True, null=True)
     instagram = models.CharField(max_length=100)
     facebook = models.CharField(max_length=100)
     linkedin = models.CharField(max_length=100)
@@ -34,9 +41,9 @@ class ModuleCourse(models.Model):
 class Course(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
-    mini_description = models.TextField(max_length=100)
+    mini_description = models.TextField(max_length=250)
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='courses', blank=True, null=True)
+    image = models.FileField(upload_to='courses', blank=True, null=True, validators=[validate_svg])
     start_date = models.DateField()
     is_active = models.BooleanField(default=True)
     category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE)
