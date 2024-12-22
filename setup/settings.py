@@ -16,7 +16,7 @@ SECRET_KEY = "django-insecure-wd0evpb65kop!+o59&m&%r7nsto2b+0$r(5(+hl-=&c^9yea2n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] 
 
 
 # Application definition
@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "escola",
     "rest_framework",
     'dj_svg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -41,8 +42,20 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3002",
+    "http://localhost:3002",
+] 
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    "http://localhost:3002",
+    "http://127.0.0.1:3002",
+]
 ROOT_URLCONF = "setup.urls"
 
 TEMPLATES = [
