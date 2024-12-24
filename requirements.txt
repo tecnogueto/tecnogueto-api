@@ -1,6 +1,6 @@
 asgiref==3.8.1
 dj-svg==0.3.1
-Django==5.1.4
+Django==4.2.7
 django-appconf==1.0.6
 django-cors-headers==4.6.0
 django-image-cropping==1.7
