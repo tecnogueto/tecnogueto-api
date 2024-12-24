@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 import os
 from django.core.exceptions import ValidationError
+from image_cropping import ImageRatioField
 
 def validate_svg(value):
     ext = os.path.splitext(value.name)[1]
@@ -14,7 +15,8 @@ class Instructor(models.Model):
     bio = models.TextField(max_length=500)
     role = models.CharField(max_length=50)
     phone = models.CharField(max_length=20)
-    image = models.FileField(upload_to='instructors', blank=True, null=True)
+    image = models.ImageField(upload_to='instructors', blank=True, null=True)
+    cropping = ImageRatioField('image', '300x300')
     instagram = models.CharField(max_length=100)
     facebook = models.CharField(max_length=100)
     linkedin = models.CharField(max_length=100)

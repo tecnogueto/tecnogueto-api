@@ -1,5 +1,6 @@
 from escola.models import Student, Course, Enrollment, Instructor, CourseCategory, ModuleCourse, Lesson
 from django.contrib import admin
+from image_cropping import ImageCroppingMixin
 
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'email', 'phone')
@@ -16,7 +17,6 @@ class CourseAdmin(admin.ModelAdmin):
     list_per_page = 20
 
 admin.site.register(Course, CourseAdmin)
-
 
 class EnrollmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'course', 'student', 'start_date', 'end_date')
@@ -58,3 +58,5 @@ class LessonAdmin(admin.ModelAdmin):
 
 admin.site.register(Lesson, LessonAdmin)
 
+class InstructorAdmin(ImageCroppingMixin, admin.ModelAdmin):
+    list_display = ('name', 'image')
