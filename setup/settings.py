@@ -1,6 +1,9 @@
 import os
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,13 +14,12 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-wd0evpb65kop!+o59&m&%r7nsto2b+0$r(5(+hl-=&c^9yea2n"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.getenv('DEBUG', default=0))
 
-ALLOWED_HOSTS = ['*'] 
-
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(' ')
 
 # Application definition
 
@@ -91,15 +93,26 @@ WSGI_APPLICATION = "setup.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_DRIVER','django.db.backends.postgresql'),
-        'USER': os.environ.get('PG_USER','postgres'),
-        'PASSWORD':os.environ.get('PG_PASSWORD','postgres'),
-        'NAME': os.environ.get('PG_DB','postgres'),
-        'PORT': os.environ.get('PG_PORT','5432'),
-        'HOST': os.environ.get('PG_HOST','localhost'), # uses the container if set, otherwise it runs locally
+        'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.getenv('SQL_DATABASE', BASE_DIR / 'db.sqlite3'),
+        'USER': os.getenv('SQL_USER', 'user'),
+        'PASSWORD': os.getenv('SQL_PASSWORD', 'password'),
+        'HOST': os.getenv('SQL_HOST', 'localhost'),
+        'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
