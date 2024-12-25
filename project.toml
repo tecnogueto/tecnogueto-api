@@ -1,0 +1,9 @@
+[[build.env]]
+name = "PYTHONPATH"
+value = "/app"
+
+[build]
+builder = "heroku/buildpacks:22"
+
+[[build.buildpacks]]
+uri = "heroku/python"
