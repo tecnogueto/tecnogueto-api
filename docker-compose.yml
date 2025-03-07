@@ -1,15 +1,18 @@
+version: '3.8'
+
 services:
   web:
     build: .
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
       - DEBUG=1
       - SECRET_KEY=cQM1j1id7hTqR8MXShZwQbsmeY18rBAn
-      - DJANGO_ALLOWED_HOSTS=cloud.tecnogueto.com.br
+      - DJANGO_ALLOWED_HOSTS=localhost,cloud.tecnogueto.com.br
       - SQL_DATABASE=postgres
       - SQL_USER=tecnogueto
       - SQL_PASSWORD=80b4d857d2cfec7f1289
+      - SQL_HOST=db  # Adicione esta linha
     depends_on:
       - db
   

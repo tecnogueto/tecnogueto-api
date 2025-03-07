@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
+import os
 
 load_dotenv()
 
@@ -81,11 +81,11 @@ WSGI_APPLICATION = "setup.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('SQL_DATABASE'),
-        'USER': os.getenv('SQL_USER'),
-        'PASSWORD': os.getenv('SQL_PASSWORD'),
-        'HOST': 'db',
-        'PORT': '5432',
+        'NAME': os.getenv('SQL_DATABASE', 'postgres'),
+        'USER': os.getenv('SQL_USER', 'tecnogueto'),
+        'PASSWORD': os.getenv('SQL_PASSWORD', '80b4d857d2cfec7f1289'),
+        'HOST': os.getenv('SQL_HOST', 'db'),  # Nome do serviço no docker-compose
+        'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
 

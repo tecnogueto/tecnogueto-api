@@ -1,23 +1,20 @@
+# Use uma imagem base do Python
 FROM python:3.9-slim
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV PORT 8000
-
+# Define o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-# Copiar TODO o projeto primeiro
-COPY . .
+# Copia o arquivo de dependências para o contêiner
+COPY requirements.txt .
 
-# Instalar dependências do sistema
-RUN apt-get update && apt-get install -y \
-    gcc \
-    postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
-
-# Instalar dependências Python
+# Instala as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copia o restante do código para o contêiner
+COPY . .
+
+# Expõe a porta 8000 (usada pelo Django)
 EXPOSE 8000
 
-CMD gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+# Comando para rodar o servidor Django
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
