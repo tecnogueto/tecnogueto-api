@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': os.getenv('SQL_DATABASE', 'postgres'),
         'USER': os.getenv('SQL_USER', 'tecnogueto'),
         'PASSWORD': os.getenv('SQL_PASSWORD', '80b4d857d2cfec7f1289'),
-        'HOST': os.getenv('SQL_HOST', 'db'),  # Nome do serviço no docker-compose
+        'HOST': os.getenv('SQL_HOST', 'tecnogueto_tecnogueto-escola-api-db'),  # Nome do serviço no docker-compose
         'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
